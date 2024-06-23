@@ -22,9 +22,8 @@ const port = process.env.PORT || 5000;
 app.use(cors({ origin: corsOptions }));
 app.use(express.json());
 
-// Routes
+// routes
 app.use('/email', emailRoutes);
-
 
 
 app.get("/", async (req, res) => {
