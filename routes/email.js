@@ -26,7 +26,7 @@ router.get('/test', (req, res) => {
 
 router.post('/send', async (req, res) => {
     try {
-        const { name, email, message } = req.body;
+        const { name, email, msg } = req.body;
 
         const accessToken = await oauth2Client.getAccessToken();
 
@@ -42,22 +42,24 @@ router.post('/send', async (req, res) => {
             }
         });
 
-        // Email to yourself
+        // email to self
         const mailOptions = {
-            from: process.env.EMAIL_USER,
+            from: `Nazmul Hassan <${process.env.EMAIL_USER}>`,
             to: process.env.EMAIL_USER,
-            subject: `New Contact Form Submission from ${name}`,
-            text: `You have a new message from ${name} : (${email}): ${message}`
+            subject: `New Message from ${name}`,
+            text: `New Message from ${name} (${email}):\n\n${msg}`
         };
 
         await transporter.sendMail(mailOptions);
 
-        // Confirmation email to the sender
+        // confirmation email to the sender
         const confirmationMailOptions = {
-            from: process.env.EMAIL_USER,
+            from: `Nazmul Hassan <${process.env.EMAIL_USER}>`,
             to: email,
-            subject: 'Thank you for contacting me',
-            text: `Hi ${name},\n\nThank you for reaching out. I have received your message and will get back to you soon.\n\nBest regards,\nNazmul Hassan`
+            subject: 'Thank You for Contacting Me',
+            text: `Hi ${name},\n\nThank you for reaching out. I have received your message and will get back to you soon.
+            \n\nBest Regards,\nNazmul Hassan
+            \n\n\n<Your Message>:\n\n${msg}`
         };
 
         await transporter.sendMail(confirmationMailOptions);
