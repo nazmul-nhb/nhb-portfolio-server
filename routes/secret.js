@@ -1,4 +1,5 @@
 import express from "express";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
@@ -9,7 +10,7 @@ const generatePrefix = () => {
 
 router.post('/', (req, res) => {
     const clientSecret = req.body;
-    console.log(clientSecret);
+    // console.log(clientSecret);
     const serverSecret = process.env.LOGIN_SECRET;
 
     if (clientSecret.code !== serverSecret) {
@@ -17,6 +18,12 @@ router.post('/', (req, res) => {
     }
 
     res.status(200).send({ message: 'Secret Matched!', urlPrefix: generatePrefix() });
+});
+
+router.post('/jwt', (req, res) => {
+    const user = req.body;
+    const token = jwt.sign(user, process.env.TOKEN_SECRET);
+    res.send({ token });
 });
 
 export default router;
