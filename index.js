@@ -1,7 +1,10 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import secretRoute from "./routes/secret.js"
 import emailRoutes from "./routes/email.js";
+// import skillsRoutes from "./routes/skills.js";
+import { client, connectDB } from "./db/portfolioDB.js";
 
 dotenv.config();
 
@@ -23,13 +26,20 @@ app.use(cors({ origin: corsOptions }));
 app.use(express.json());
 
 // routes
+app.use('/secret', secretRoute);
+// app.use('/skills', skillsRoutes);
 app.use('/email', emailRoutes);
-
 
 app.get("/", async (req, res) => {
     res.send("Portfolio Server is Running!");
 });
 
-app.listen(port, () => {
-    console.log(`Portfolio Server is Running on Port: ${port}`);
-});
+const run = async () => {
+    await connectDB();
+
+    app.listen(port, () => {
+        console.log(`Portfolio Server is Running on Port: ${port}`);
+    });
+};
+
+run().catch(console.dir);
