@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import secretRoute from "./routes/secret.js"
 import emailRoutes from "./routes/email.js";
-// import skillsRoutes from "./routes/skills.js";
+import skillsRoutes from "./routes/skills.js";
 import { client, connectDB } from "./db/portfolioDB.js";
 
 dotenv.config();
@@ -27,7 +27,7 @@ app.use(express.json());
 
 // routes
 app.use('/secret', secretRoute);
-// app.use('/skills', skillsRoutes);
+app.use('/skills', skillsRoutes);
 app.use('/email', emailRoutes);
 
 app.get("/", async (req, res) => {
