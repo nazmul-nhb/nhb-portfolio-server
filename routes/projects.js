@@ -11,12 +11,36 @@ router.get('/', async (req, res) => {
     res.send(result)
 });
 
+// add a new project
+router.post('/add', verifyToken, verifyOwner, async (req, res) => {
+    const project = req.body;
+
+    // check article entries with title
+    const articleExists = await projectCollection.findOne({ title: project.title });
+    if (articleExists) {
+        return res.send({ message: 'Project Already Exists!' });
+    }
+
+    const result = await projectCollection.insertOne(project);
+
+    res.send(result)
+});
+
 // update a project
 router.patch('/update/:id', verifyToken, verifyOwner, async (req, res) => {
     const filter = { _id: new ObjectId(req.params.id) };
     const updatedProject = { $set: req.body }
     const options = { upsert: true };
     const result = await projectCollection.updateOne(filter, updatedProject, options);
+
+    res.send(result)
+});
+
+// delete a project
+router.delete('/delete/:id', verifyToken, verifyOwner, async (req, res) => {
+    const filter = { _id: new ObjectId(req.params.id) };
+
+    const result = await projectCollection.deleteOne(filter);
 
     res.send(result)
 });
