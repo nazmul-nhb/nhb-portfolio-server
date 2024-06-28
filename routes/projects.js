@@ -15,9 +15,9 @@ router.get('/', async (req, res) => {
 router.post('/add', verifyToken, verifyOwner, async (req, res) => {
     const project = req.body;
 
-    // check article entries with title
-    const articleExists = await projectCollection.findOne({ title: project.title });
-    if (articleExists) {
+    // check for duplicate entries with project title
+    const projectExists = await projectCollection.findOne({ title: project.title });
+    if (projectExists) {
         return res.send({ message: 'Project Already Exists!' });
     }
 
