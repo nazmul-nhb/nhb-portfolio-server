@@ -47,11 +47,11 @@ router.post('/send', async (req, res) => {
             from: `Nazmul Hassan <${process.env.EMAIL_USER}>`,
             to: process.env.EMAIL_USER,
             subject: `New Message from ${name}`,
-            text: `New Message from ${name} (${email}):\n\n${msg}`,
+            text: `New Message from ${name} - (${email}):\n\n${msg}`,
             html: `
                 <div style="font-family: Arial, sans-serif; color: #333; padding: 4px 20px 8px 20px;">
                     <h3 style="color: #004085;">New Message from <span style="display: inline-block; color: #d9534f;">${name}</span></h3>
-                    <p><strong>Email:</strong> <a href="mailto:${email}" style="color: #004085;">${email}</a></p>
+                    <p><a href="mailto:${email}" style="color: #004085;">${email}</a></p>
                     <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
                     <h3 style="color: #004085;">Message:</h3>
                     <p style="white-space: pre-wrap; background-color: #f8f9fa; padding: 10px; border-left: 4px solid #004085;">${msg}</p>

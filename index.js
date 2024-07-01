@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import secretRoute from "./routes/secret.js"
 import emailRoutes from "./routes/email.js";
+import bioRoutes from "./routes/bio.js";
 import skillsRoutes from "./routes/skills.js";
 import projectsRoutes from "./routes/projects.js";
 import { client, connectDB } from "./db/portfolioDB.js";
@@ -28,6 +29,7 @@ app.use(express.json());
 
 // routes
 app.use('/secret', secretRoute);
+app.use('/bio', bioRoutes);
 app.use('/skills', skillsRoutes);
 app.use('/projects', projectsRoutes);
 app.use('/email', emailRoutes);

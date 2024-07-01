@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.qmbsuxs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+
 export const client = new MongoClient(uri, {
     serverApi: {
         version: ServerApiVersion.v1,
@@ -12,6 +13,7 @@ export const client = new MongoClient(uri, {
     }
 });
 
+export const bioCollection = client.db("portfolioDB").collection("bio");
 export const skillCollection = client.db("portfolioDB").collection("skills");
 export const projectCollection = client.db("portfolioDB").collection("projects");
 
@@ -22,8 +24,8 @@ export const connectDB = async () => {
 
 
         // Send a ping to confirm a successful connection
-        await client.db("admin").command({ ping: 1 });
-        console.log("Successfully Connected to MongoDB!");
+        // await client.db("admin").command({ ping: 1 });
+        // console.log("Successfully Connected to MongoDB!");
     } catch (error) {
         console.error("Failed to Connect to MongoDB", error);
     } finally {
