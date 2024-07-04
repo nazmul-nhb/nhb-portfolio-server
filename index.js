@@ -10,7 +10,7 @@ import { client, connectDB } from "./db/portfolioDB.js";
 
 dotenv.config();
 
-const corsOptions = [
+const allowedOrigins = [
     'http://localhost:5173',
     'http://localhost:5174',
     'https://nazmul-nhb.web.app',
@@ -19,6 +19,19 @@ const corsOptions = [
     'https://nazmul-nhb-nazmul-hassans-projects.vercel.app',
     'https://nazmul-nhb-nazmul-nhb-nazmul-hassans-projects.vercel.app'
 ];
+
+
+const dynamicOriginPattern = /^https:\/\/nazmul-[a-z0-9]+-nazmul-hassans-projects\.vercel\.app$/;
+
+const corsOptions = {
+    origin: (origin, callback) => {
+        if (allowedOrigins.includes(origin) || dynamicOriginPattern.test(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not Allowed by CORS!'));
+        }
+    }
+};
 
 const app = express();
 const port = process.env.PORT || 5000;
