@@ -20,9 +20,9 @@ oauth2Client.setCredentials({
     refresh_token: process.env.REFRESH_TOKEN
 });
 
-router.get('/test', (req, res) => {
-    res.send('Email is waiting here!');
-});
+// router.get('/test', (req, res) => {
+//     res.send('Email is waiting here!');
+// });
 
 router.post('/send', async (req, res) => {
     try {

@@ -20,7 +20,7 @@ const allowedOrigins = [
     'https://nazmul-nhb-nazmul-nhb-nazmul-hassans-projects.vercel.app'
 ];
 
-
+// make dynamic link for every vercel deployment
 const dynamicOriginPattern = /^https:\/\/nazmul-[a-z0-9]+-nazmul-hassans-projects\.vercel\.app$/;
 
 const corsOptions = {
