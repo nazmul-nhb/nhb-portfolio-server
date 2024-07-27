@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import moment from 'moment';
 import { ObjectId } from 'mongodb';
 import { messageCollection } from '../db/portfolioDB.js';
+import { verifyOwner, verifyToken } from '../middlewares/auth.js';
 
 dotenv.config();
 
@@ -145,7 +146,7 @@ router.delete('/messages/:id', async (req, res) => {
 
 // TODO: VerifyToken and Owner
 // get total message count
-router.get(`/message-count`, async (req, res) => {
+router.get(`/message-count`, verifyToken, verifyOwner, async (req, res) => {
     try {
         const messageCount = await messageCollection.countDocuments({ views: { $lte: 0 } });
 
