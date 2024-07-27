@@ -9,15 +9,20 @@ const generatePrefix = () => {
 };
 
 router.post('/', (req, res) => {
-    const clientSecret = req.body;
-    // console.log(clientSecret);
-    const serverSecret = process.env.LOGIN_SECRET;
+    try {
+        const clientSecret = req.body;
+        // console.log(clientSecret);
+        const serverSecret = process.env.LOGIN_SECRET;
 
-    if (clientSecret.code !== serverSecret) {
-        return res.status(422).send({ message: 'Invalid Secret Code!' });
+        if (clientSecret.code !== serverSecret) {
+            return res.status(422).send({ message: 'Invalid Secret Code!' });
+        }
+
+        res.status(200).send({ message: 'Secret Matched!', urlPrefix: generatePrefix() });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error!");
     }
-
-    res.status(200).send({ message: 'Secret Matched!', urlPrefix: generatePrefix() });
 });
 
 router.post('/jwt', (req, res) => {

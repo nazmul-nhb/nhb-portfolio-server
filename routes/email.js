@@ -2,6 +2,8 @@ import express from 'express';
 import nodemailer from 'nodemailer';
 import { google } from 'googleapis';
 import dotenv from 'dotenv';
+import moment from 'moment';
+import { messageCollection } from '../db/portfolioDB.js';
 
 dotenv.config();
 
@@ -19,10 +21,6 @@ const oauth2Client = new OAuth2(
 oauth2Client.setCredentials({
     refresh_token: process.env.REFRESH_TOKEN
 });
-
-// router.get('/test', (req, res) => {
-//     res.send('Email is waiting here!');
-// });
 
 router.post('/send', async (req, res) => {
     try {
@@ -87,11 +85,29 @@ router.post('/send', async (req, res) => {
 
         await transporter.sendMail(confirmationMailOptions);
 
+        const incomingMsg = {
+            sender: name, email, msg, date: moment().format("YYYY-MM-DD HH:mm:ss")
+        };
+
+        await messageCollection.insertOne(incomingMsg);
+
         res.status(200).send({ message: 'Message Sent Successfully!' });
     } catch (error) {
         console.error('Error Sending Mail: ', error);
         res.status(500).send(error.toString());
     }
 });
+
+router.get('/messages', async (req, res) => {
+    try {
+        const result = await messageCollection.find().toArray();
+
+        res.send(result);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error!");
+    }
+});
+
 
 export default router;

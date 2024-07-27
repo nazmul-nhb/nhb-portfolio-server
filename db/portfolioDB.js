@@ -16,6 +16,7 @@ export const client = new MongoClient(uri, {
 export const bioCollection = client.db("portfolioDB").collection("bio");
 export const skillCollection = client.db("portfolioDB").collection("skills");
 export const projectCollection = client.db("portfolioDB").collection("projects");
+export const messageCollection = client.db("portfolioDB").collection("messages");
 
 export const connectDB = async () => {
     try {
