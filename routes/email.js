@@ -100,9 +100,8 @@ router.post('/send', async (req, res) => {
     }
 });
 
-// TODO: VerifyToken and Owner
 // get all email messages
-router.get('/messages', async (req, res) => {
+router.get('/messages', verifyToken, verifyOwner, async (req, res) => {
     try {
         const result = await messageCollection.find().sort({ date: -1 }).toArray();
 
@@ -113,9 +112,8 @@ router.get('/messages', async (req, res) => {
     }
 });
 
-// TODO: VerifyToken and Owner
 // get single msg by id
-router.get('/messages/:id', async (req, res) => {
+router.get('/messages/:id', verifyToken, verifyOwner, async (req, res) => {
     try {
         const filter = { _id: new ObjectId(req.params.id) };
         const updateViewCount = { $inc: { views: 1 } };
@@ -129,9 +127,8 @@ router.get('/messages/:id', async (req, res) => {
     }
 });
 
-// TODO: VerifyToken and Owner
 // delete a msg
-router.delete('/messages/:id', async (req, res) => {
+router.delete('/messages/:id', verifyToken, verifyOwner, async (req, res) => {
     try {
         const filter = { _id: new ObjectId(req.params.id) };
 
@@ -144,7 +141,6 @@ router.delete('/messages/:id', async (req, res) => {
     }
 });
 
-// TODO: VerifyToken and Owner
 // get total message count
 router.get(`/message-count`, verifyToken, verifyOwner, async (req, res) => {
     try {
