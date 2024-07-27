@@ -103,7 +103,7 @@ router.post('/send', async (req, res) => {
 // get all email messages
 router.get('/messages', async (req, res) => {
     try {
-        const result = await messageCollection.find().toArray();
+        const result = await messageCollection.find().sort({ date: -1 }).toArray();
 
         res.send(result);
     } catch (error) {
@@ -137,6 +137,19 @@ router.delete('/messages/:id', async (req, res) => {
         const result = await messageCollection.deleteOne(filter);
 
         res.send(result);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error!");
+    }
+});
+
+// TODO: VerifyToken and Owner
+// get total message count
+router.get(`/message-count`, async (req, res) => {
+    try {
+        const messageCount = await messageCollection.countDocuments({ views: { $lte: 0 } });
+
+        res.send({ messageCount });
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error!");
