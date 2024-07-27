@@ -86,18 +86,19 @@ router.post('/send', async (req, res) => {
         await transporter.sendMail(confirmationMailOptions);
 
         const incomingMsg = {
-            sender: name, email, msg, date: moment().format("YYYY-MM-DD HH:mm:ss")
+            sender: name, email, msg, views: 0, date: moment().format()
         };
 
         await messageCollection.insertOne(incomingMsg);
 
         res.status(200).send({ message: 'Message Sent Successfully!' });
     } catch (error) {
-        console.error('Error Sending Mail: ', error);
-        res.status(500).send(error.toString());
+        console.error(error);
+        res.status(500).send("Internal Server Error!");
     }
 });
 
+// get all email messages
 router.get('/messages', async (req, res) => {
     try {
         const result = await messageCollection.find().toArray();
@@ -107,6 +108,16 @@ router.get('/messages', async (req, res) => {
         console.error(error);
         res.status(500).send("Internal Server Error!");
     }
+});
+
+// get single msg by id
+router.get('/:id', async (req, res) => {
+    const filter = { _id: new ObjectId(req.params.id) };
+    const updateViewCount = { $inc: { views: 1 } };
+
+    await messageCollection.updateOne(filter, updateViewCount);
+    const result = await messageCollection.findOne(filter);
+    res.send(result);
 });
 
 
