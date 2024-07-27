@@ -11,8 +11,8 @@ import { client, connectDB } from "./db/portfolioDB.js";
 dotenv.config();
 
 const allowedOrigins = [
-    'http://localhost:5173',
-    'http://localhost:5174',
+    // 'http://localhost:5173',
+    // 'http://localhost:5174',
     'https://nazmul-nhb.web.app',
     'https://nazmul-nhb.vercel.app',
     'https://nazmul-nhb.firebaseapp.com',
@@ -37,7 +37,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // middlewares
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // routes
