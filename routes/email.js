@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer';
 import { google } from 'googleapis';
 import dotenv from 'dotenv';
 import moment from 'moment';
+import { ObjectId } from 'mongodb';
 import { messageCollection } from '../db/portfolioDB.js';
 
 dotenv.config();
@@ -98,6 +99,7 @@ router.post('/send', async (req, res) => {
     }
 });
 
+// TODO: VerifyToken and Owner
 // get all email messages
 router.get('/messages', async (req, res) => {
     try {
@@ -110,14 +112,35 @@ router.get('/messages', async (req, res) => {
     }
 });
 
+// TODO: VerifyToken and Owner
 // get single msg by id
-router.get('/:id', async (req, res) => {
-    const filter = { _id: new ObjectId(req.params.id) };
-    const updateViewCount = { $inc: { views: 1 } };
+router.get('/messages/:id', async (req, res) => {
+    try {
+        const filter = { _id: new ObjectId(req.params.id) };
+        const updateViewCount = { $inc: { views: 1 } };
 
-    await messageCollection.updateOne(filter, updateViewCount);
-    const result = await messageCollection.findOne(filter);
-    res.send(result);
+        await messageCollection.updateOne(filter, updateViewCount);
+        const result = await messageCollection.findOne(filter);
+        res.send(result);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error!");
+    }
+});
+
+// TODO: VerifyToken and Owner
+// delete a msg
+router.delete('/messages/:id', async (req, res) => {
+    try {
+        const filter = { _id: new ObjectId(req.params.id) };
+
+        const result = await messageCollection.deleteOne(filter);
+
+        res.send(result);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error!");
+    }
 });
 
 
