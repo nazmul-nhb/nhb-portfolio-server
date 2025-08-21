@@ -1,17 +1,22 @@
 {
   "name": "nhb-portfolio-server",
-  "version": "2.0.0",
-  "description": "server for portfolio",
+  "version": "2.0.1",
+  "description": "Server for Portfolio Website",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "nodemon index",
+    "format": "nhb-format",
     "commit": "nhb-commit"
   },
   "keywords": [
-    "portfolio"
+    "portfolio",
+    "nhb"
   ],
-  "author": "nhb",
+  "author": {
+    "name": "Nazmul Hassan",
+    "email": "nazmulnhb@gmail.com"
+  },
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
@@ -24,6 +29,7 @@
     "nodemailer": "^6.9.14"
   },
   "devDependencies": {
-    "nhb-scripts": "^1.8.57"
+    "nhb-scripts": "^1.8.57",
+    "prettier": "^3.6.2"
   }
 }
