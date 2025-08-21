@@ -13,6 +13,8 @@ dotenv.config();
 const allowedOrigins = [
     'http://localhost:5173',
     'http://localhost:5174',
+    'https://nazmul-nhb.dev',
+    'https://www.nazmul-nhb.dev',
     'https://nazmul-nhb.web.app',
     'https://nazmul-nhb.vercel.app',
     'https://nazmul-nhb.firebaseapp.com',
